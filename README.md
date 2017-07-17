@@ -1,3 +1,3 @@
-# Wpf FontDialog
+# WPF FontDialog
 
-simple font dialog in wpf
+simple font dialog in WPF
