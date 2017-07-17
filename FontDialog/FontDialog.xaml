@@ -1,1 +1,26 @@
+<Window x:Class="Font.FontDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Font"
+        mc:Ignorable="d"
+        Title="FontDialog" Height="300" Width="600" ResizeMode="NoResize"
+        >
+    <Grid>
+        <TextBox x:Name="textFont" TextWrapping="Wrap" Text="" Margin="30,40,0,0" Height="23" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="170" TextChanged="textFont_TextChanged"/>
+        <ListBox x:Name="lboxFont" HorizontalAlignment="Left" Height="165" VerticalAlignment="Top" Width="170" Margin="30,75,0,0" SelectionChanged="lboxFont_SelectionChanged"/>
 
+        <ListBox x:Name="lboxFontStyle" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="150" Margin="220,40,0,0"/>
+
+        <TextBox x:Name="textFontSize" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" TextAlignment="Left" VerticalAlignment="Top" Width="90" Margin="385,40,0,0"
+                 PreviewKeyDown="textFontSize_PreviewKeyDown" TextChanged="textFontSize_TextChanged"/>
+        <ListBox x:Name="lboxFontSize" HorizontalAlignment="Left" Height="165" VerticalAlignment="Top" Width="90" Margin="385,75,0,0"
+                 SelectionChanged="lboxFontSize_SelectionChanged"/>
+
+        <Button x:Name="btnOK" Content="확인" IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="490,40,0,0"
+                Click="btnOK_Click"/>
+        <Button x:Name="btnCancel" Content="취소" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="490,85,0,0"/>
+
+    </Grid>
+</Window>
