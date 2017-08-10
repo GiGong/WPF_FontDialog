@@ -143,26 +143,39 @@ namespace Font
         }
 
         private void lboxFont_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            listFontStyle = new List<string>();
-            FontFamily family = new FontFamily((sender as ListBox).SelectedItem as string);
-            listFontTypeface = family.FamilyTypefaces.ToList();
+        {            
+            FontFamily family;
+            List<string> tempListFontStyle = new List<string>();
+            List<FamilyTypeface> tempListFontTypeface;
+            try
+            {
+                tempListFontStyle = new List<string>();
+                family = new FontFamily((sender as ListBox).SelectedItem as string);
+                tempListFontTypeface = family.FamilyTypefaces.ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            listFontTypeface = tempListFontTypeface;
 
             int selectIndex = -1;
 
             var cond = System.Windows.Markup.XmlLanguage.GetLanguage(System.Globalization.CultureInfo.CurrentUICulture.Name);
 
             var list = family.GetTypefaces().ToList();
-            for(int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 var item = list[i];
                 if (item.FaceNames.ContainsKey(cond))
                 {
-                    listFontStyle.Add(item.FaceNames[cond]);
+                    tempListFontStyle.Add(item.FaceNames[cond]);
                 }
                 else
                 {
-                    listFontStyle.Add(item.FaceNames[System.Windows.Markup.XmlLanguage.GetLanguage("en-us")]);
+                    tempListFontStyle.Add(item.FaceNames[System.Windows.Markup.XmlLanguage.GetLanguage("en-us")]);
                 }
 
                 if (family.ToString() == ResultFontFamily.ToString())
@@ -173,12 +186,17 @@ namespace Font
                         selectIndex = i;
                 }
             }
+            listFontStyle = tempListFontStyle;
             lboxFontStyle.ItemsSource = listFontStyle;
 
             if (selectIndex > -1)
                 lboxFontStyle.SelectedIndex = selectIndex;
             else
                 lboxFontStyle.SelectedIndex = 0;
+
+            textFont.TextChanged -= textFont_TextChanged;
+            textFont.Text = family.ToString();
+            textFont.TextChanged += textFont_TextChanged;
         }
 
         private void textFont_TextChanged(object sender, TextChangedEventArgs e)
@@ -189,7 +207,10 @@ namespace Font
             {
                 if (item.ToLower().StartsWith(lower))
                 {
+                    lboxFont.SelectionChanged -= lboxFont_SelectionChanged;
                     lboxFont.SelectedItem = item;
+                    lboxFont.SelectionChanged += lboxFont_SelectionChanged;
+
                     lboxFont.ScrollIntoView(item);
                     return;
                 }
